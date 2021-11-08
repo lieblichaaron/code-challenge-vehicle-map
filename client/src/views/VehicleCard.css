@@ -1,0 +1,11 @@
+.card-container {
+  height: 100%;
+  flex-grow: 1;
+}
+
+.card {
+  height: 100%;
+  width: 90%;
+  margin: 20px auto;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
