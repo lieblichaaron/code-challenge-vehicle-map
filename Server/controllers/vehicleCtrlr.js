@@ -1,7 +1,7 @@
 const dbConnection = require('../DBconnection')
-const vehicles = require('../../vehicles-location.json')
-const getAllVehiclesLocations = async (req, res) => {
-    dbConnection.query("SELECT * FROM vehicle_location", (err, rows, fields) => {
+
+const getAllVehicles = async (req, res) => {
+    dbConnection.query("SELECT * FROM vehicles JOIN vehicle_location ON vehicles.vehicle_id = vehicle_location.vehicle_id", (err, rows, fields) => {
         if (!err) {
             res.send(rows)
         } else {
@@ -15,6 +15,6 @@ const getVehiclesFromSelectedArea = async (req, res) => {
   };
 
   module.exports = {
-      getAllVehiclesLocations,
+    getAllVehicles,
       getVehiclesFromSelectedArea
   }

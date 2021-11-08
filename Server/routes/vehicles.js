@@ -2,12 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const {
-    getAllVehiclesLocations,
+  getAllVehicles,
     getVehiclesFromSelectedArea,
   } = require("../controllers/vehicleCtrlr");
   
 
-router.get("", getAllVehiclesLocations);
+router.get("", getAllVehicles);
 
 router.get("/selectedArea", getVehiclesFromSelectedArea);
 
