@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './App.css'
 import { Vehicle } from './utils/vehicle';
-import {getAllVehicles} from './utils/vehiclesAPI'
+import { getAllVehicles } from './utils/vehiclesAPI'
 import VehiclesList from './views/VehiclesList';
 import VehicleCard from './views/VehicleCard';
+import Map from './views/Map'
 
 function App() {
   const [vehiclesList, setVehiclesList] = useState<Vehicle[]>([])
@@ -42,25 +43,25 @@ function App() {
       return vehicle.vehicle_id.includes(filterText)
     });
     setDisplayList(tempList)
-  }, [filterText])
-  
+  }, [filterText, vehiclesList])
+
   return (
     <div className='app-container'>
       <div className='map-container'>
-        {/* <text>hello</text> */}
-      </div> 
+        {chosenVehicle && <Map vehicles={displayList} setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} />}
+      </div>
       <div className='vehicle-list-container'>
-        <div style={{width: '50%'}}>
+        <div style={{ width: '50%' }}>
           <ul className='list-filter'>
             <button onClick={() => filterVehicles('all')}>All</button>
             <button onClick={() => filterVehicles('online')}>Online</button>
             <button onClick={() => filterVehicles('in-ride')}>In ride</button>
-            <input type="text" placeholder="Search for vehicle ID" value={filterText} onChange={(event) => setFilterText(event.target.value)}/>
+            <input type="text" placeholder="Search for vehicle ID" value={filterText} onChange={(event) => setFilterText(event.target.value)} />
           </ul>
-          {displayList.length > 0 && <VehiclesList vehicles={displayList} setChosenVehicle={setChosenVehicle} />}
+          {chosenVehicle && <VehiclesList vehicles={displayList} setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} />}
         </div>
         {chosenVehicle && <VehicleCard vehicle={chosenVehicle} />}
-      </div> 
+      </div>
     </div>
   );
 }

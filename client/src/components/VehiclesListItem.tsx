@@ -2,9 +2,9 @@ import React from "react";
 import { Vehicle } from "../utils/vehicle";
 import './VehiclesListItem.css'
 
-const VehiclesListItem = ({vehicle, onClick}: {vehicle: Vehicle; onClick: Function}) => {
+const VehiclesListItem = ({ vehicle, onClick, chosen }: { vehicle: Vehicle; onClick: Function; chosen: boolean }) => {
     return (
-        <button className='list-item' onClick={() => onClick(vehicle)} >
+        <button style={{ backgroundColor: chosen ? 'grey' : undefined }} className='list-item' onClick={() => onClick(vehicle)} >
             <div>Id: {vehicle.vehicle_id}</div>
             <div>State: {vehicle.state}</div>
             <div>Class: {vehicle.class_name}</div>
