@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { Vehicle } from '../utils/vehicle';
 import CarMarker from '../components/CarMarker'
@@ -9,9 +9,9 @@ const Map = ({ vehicles, setChosenVehicle, chosenVehicle }: { vehicles: Vehicle[
     <div style={{ height: '100%', width: '100%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY || '' }}
-        defaultCenter={{
-          lat: vehicles[0].lat,
-          lng: vehicles[0].lng
+        center={{
+          lat: chosenVehicle.lat,
+          lng: chosenVehicle.lng
         }}
         defaultZoom={11}
         hoverDistance={25}
