@@ -10,22 +10,7 @@ function App() {
   const [vehiclesList, setVehiclesList] = useState<Vehicle[]>([])
   const [displayList, setDisplayList] = useState<Vehicle[]>([])
   const [chosenVehicle, setChosenVehicle] = useState<Vehicle>()
-  const [filterText, setFilterText] = useState<string>('')
-  const [carClass, setCarClass] = useState<string>('')
-
-  const filterVehicles = (status: 'all' | 'online' | 'in-ride') => {
-    let tempList: Vehicle[] = [];
-    if (status === 'all') {
-      tempList = vehiclesList.filter((vehicle: Vehicle) => {
-        return true
-      });
-    } else {
-      tempList = vehiclesList.filter((vehicle: Vehicle) => {
-        return vehicle.state === status
-      });
-    }
-    setDisplayList(tempList)
-  }
+  const [filters, setFilters] = useState({ text: '', status: 'all', class: 'all' })
 
   const getVehicleList = async () => {
     const vehicles = await getAllVehicles()
@@ -40,10 +25,14 @@ function App() {
 
   useEffect(() => {
     const tempList: Vehicle[] = vehiclesList.filter((vehicle: Vehicle) => {
-      return vehicle.vehicle_id.includes(filterText) && (vehicle.class_name === carClass || carClass === 'All')
+      return (
+        vehicle.vehicle_id.includes(filters.text) &&
+        (vehicle.class_name === filters.class || filters.class === 'all') &&
+        (vehicle.state === filters.status || filters.status === 'all')
+      )
     });
     setDisplayList(tempList)
-  }, [filterText, vehiclesList, carClass])
+  }, [filters, vehiclesList])
 
   return (
     <div className='app-container'>
@@ -53,18 +42,18 @@ function App() {
       <div className='vehicle-list-container'>
         <div style={{ width: '50%' }}>
           <ul className='list-filter'>
-            <button onClick={() => filterVehicles('all')}>All</button>
-            <button onClick={() => filterVehicles('online')}>Online</button>
-            <button onClick={() => filterVehicles('in-ride')}>In ride</button>
-            <select name="class" id="class" style={{ marginRight: 5 }} onChange={(e) => setCarClass(e.target.value)}>
-              <option value="All">Class</option>
+            <button onClick={() => setFilters({ ...filters, status: 'all' })}>All</button>
+            <button onClick={() => setFilters({ ...filters, status: 'online' })}>Online</button>
+            <button onClick={() => setFilters({ ...filters, status: 'in-ride' })}>In ride</button>
+            <select name="class" id="class" style={{ marginRight: 5 }} onChange={(e) => setFilters({ ...filters, class: e.target.value })}>
+              <option value="all">Class</option>
               <option value="A">A</option>
               <option value="B">B</option>
               <option value="C">C</option>
               <option value="D">D</option>
               <option value="E">E</option>
             </select>
-            <input type="text" placeholder="Search for vehicle ID" value={filterText} onChange={(event) => setFilterText(event.target.value)} />
+            <input type="text" placeholder="Search for vehicle ID" value={filters.text} onChange={(event) => setFilters({ ...filters, text: event.target.value })} />
           </ul >
           {chosenVehicle && <VehiclesList vehicles={displayList} setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} />
           }
