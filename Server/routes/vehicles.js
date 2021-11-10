@@ -3,12 +3,12 @@ const router = express.Router();
 
 const {
   getAllVehicles,
-    getVehiclesFromSelectedArea,
-  } = require("../controllers/vehicleCtrlr");
-  
+  getVehiclesFromSelectedArea,
+} = require("../controllers/vehicleCtrlr");
+
 
 router.get("", getAllVehicles);
 
-router.get("/selectedArea", getVehiclesFromSelectedArea);
+router.post("/selectedArea", getVehiclesFromSelectedArea);
 
 module.exports = router;

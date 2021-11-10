@@ -6,17 +6,16 @@ const CarMarker = ({ onClick, vehicle, $hover, chosen }: { vehicle: Vehicle; lat
     return (
         <button
             style={{
-                height: '50px',
-                width: '50px',
+                height: '25px',
+                width: '25px',
                 backgroundColor: chosen ? vehicleColor : $hover ? vehicleColor : 'blue',
                 borderRadius: '100px',
                 color: 'white',
                 position: 'absolute',
-                left: -30,
-                top: -30,
+                left: -15,
+                top: -15,
             }}
             onClick={() => onClick(vehicle)}>
-            {vehicle.state}
         </button>
     )
 };

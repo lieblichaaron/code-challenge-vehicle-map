@@ -31,7 +31,6 @@ function App() {
     setVehiclesList(vehicles)
     setDisplayList(vehicles)
     setChosenVehicle(vehicles[0])
-    console.log(vehicles)
   }
 
   useEffect(() => {
@@ -48,7 +47,7 @@ function App() {
   return (
     <div className='app-container'>
       <div className='map-container'>
-        {chosenVehicle && <Map vehicles={displayList} setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} />}
+        {chosenVehicle && <Map setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} />}
       </div>
       <div className='vehicle-list-container'>
         <div style={{ width: '50%' }}>
