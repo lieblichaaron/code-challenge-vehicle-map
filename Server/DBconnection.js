@@ -1,12 +1,12 @@
 const mysql = require('mysql');
 
-const dbConnection = mysql.createConnection({  
-    host: process.env.DB_HOST,  
-    user: process.env.DB_USER,  
+const dbConnection = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: 'autofleet'  
-  });
-  
+    database: 'sql11450370'
+});
+
 dbConnection.connect((err) => {
     if (!err) {
         console.log('db connection successful')
