@@ -17,16 +17,3 @@
   width: 100%;
   min-width: 100%;
 }
-
-.list-filter {
-  padding: 0;
-  list-style-type: none;
-  display: flex;
-  justify-content: center;
-}
-button {
-  width: 60px;
-  height: 30px;
-  border: none;
-  margin: 5px;
-}
