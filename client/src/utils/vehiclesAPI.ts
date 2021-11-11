@@ -1,6 +1,7 @@
+const baseUrl = 'https://autofleetlieblich.herokuapp.com/'
 export const getAllVehicles = async () => {
     try {
-        const res = await fetch('http://localhost:5000/vehicles')
+        const res = await fetch(baseUrl + 'vehicles')
         const vehicles = await res.json()
         return vehicles
     } catch (e) {
@@ -10,7 +11,7 @@ export const getAllVehicles = async () => {
 
 export const getVehiclesInPolygon = async (polygon: number[][]) => {
     try {
-        const response = await fetch('http://localhost:5000/vehicles/selectedArea', {
+        const response = await fetch(baseUrl + 'vehicles/selectedArea', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
