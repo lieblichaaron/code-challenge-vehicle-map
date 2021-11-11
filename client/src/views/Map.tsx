@@ -9,11 +9,12 @@ import Loader from "react-loader-spinner";
 interface I_MapProps {
   setChosenVehicle: Function;
   chosenVehicle: Vehicle;
-  setFilters: Function,
-  setAreaList: Function
+  setFilters: Function;
+  setAreaList: Function;
+  displayList: Vehicle[];
 }
 
-const Map = ({ setChosenVehicle, chosenVehicle, setFilters, setAreaList }: I_MapProps) => {
+const Map = ({ setChosenVehicle, chosenVehicle, setFilters, setAreaList, displayList }: I_MapProps) => {
   const [searchArea, setSearchArea] = useState<any>()
   const [mapState, setMapState] = useState<any>()
   const [mapsState, setMapsState] = useState<any>()
@@ -104,7 +105,7 @@ const Map = ({ setChosenVehicle, chosenVehicle, setFilters, setAreaList }: I_Map
           vehicle={chosenVehicle}
           chosen={true}
         />
-        {vehiclesInArea && vehiclesInArea.map((vehicle: Vehicle) => {
+        {vehiclesInArea && displayList.map((vehicle: Vehicle) => {
           return (
             <CarMarker
               key={vehicle.vehicle_id}

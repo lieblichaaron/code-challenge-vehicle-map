@@ -45,12 +45,13 @@ function App() {
       });
     }
     setDisplayList(tempList)
+    setChosenVehicle(tempList[0])
   }, [filters, vehiclesList, areaList])
 
   return (
     <div className='app-container'>
       <div className='map-container'>
-        {chosenVehicle && <Map setAreaList={setAreaList} setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} setFilters={setFilters} />}
+        {chosenVehicle && <Map displayList={displayList} setAreaList={setAreaList} setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} setFilters={setFilters} />}
         <div style={{ width: '30%', maxHeight: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
           <ListFilter setFilters={setFilters} filters={filters} />
           {chosenVehicle && <VehiclesList vehicles={displayList} setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} />
