@@ -3,8 +3,16 @@ import GoogleMapReact from 'google-map-react';
 import { Vehicle } from '../utils/vehicle';
 import CarMarker from '../components/CarMarker'
 import { getVehiclesInPolygon } from '../utils/vehiclesAPI'
+import './Map.css'
 
-const Map = ({ setChosenVehicle, chosenVehicle }: { setChosenVehicle: Function; chosenVehicle: Vehicle }) => {
+interface I_MapProps {
+  setChosenVehicle: Function;
+  chosenVehicle: Vehicle;
+  setFilters: Function,
+  setAreaList: Function
+}
+
+const Map = ({ setChosenVehicle, chosenVehicle, setFilters, setAreaList }: I_MapProps) => {
   const [searchArea, setSearchArea] = useState<any>()
   const [mapState, setMapState] = useState<any>()
   const [mapsState, setMapsState] = useState<any>()
@@ -21,6 +29,8 @@ const Map = ({ setChosenVehicle, chosenVehicle }: { setChosenVehicle: Function; 
     searchArea.setMap(null)
     setSearchArea(undefined)
     setVehiclesInArea(undefined)
+    setAreaList()
+    setFilters({ text: '', status: 'all', class: 'all' })
   }
 
   const startSearchArea = () => {
@@ -40,7 +50,7 @@ const Map = ({ setChosenVehicle, chosenVehicle }: { setChosenVehicle: Function; 
       setSearchArea(area)
     }
   }
-  const getLocation = async () => {
+  const getVehiclesInArea = async () => {
     const polygon: number[][] = []
     searchArea.getPath().td.forEach((coords: any, i: number) => {
       const point = []
@@ -51,10 +61,12 @@ const Map = ({ setChosenVehicle, chosenVehicle }: { setChosenVehicle: Function; 
     const res = await getVehiclesInPolygon(polygon)
     setVehiclesInArea(res)
     setChosenVehicle(res[0])
+    setAreaList(res)
+    setFilters({ text: '', status: 'all', class: 'all' })
   }
 
   return (
-    <div style={{ height: '100%', width: '100%', position: 'relative' }}>
+    <div className='container'>
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY || '' }}
         center={{
@@ -81,6 +93,7 @@ const Map = ({ setChosenVehicle, chosenVehicle }: { setChosenVehicle: Function; 
         {vehiclesInArea && vehiclesInArea.map((vehicle: Vehicle) => {
           return (
             <CarMarker
+              key={vehicle.vehicle_id}
               lat={vehicle.lat}
               lng={vehicle.lng}
               onClick={setChosenVehicle}
@@ -91,13 +104,15 @@ const Map = ({ setChosenVehicle, chosenVehicle }: { setChosenVehicle: Function; 
         })}
       </GoogleMapReact>
       <button
-        onClick={searchArea ? getLocation : startSearchArea}
-        style={{ position: 'absolute', bottom: 40, left: 0, width: '200px', borderRadius: 10, backgroundColor: '#3B5D7F', color: 'white' }} >
+        onClick={searchArea ? getVehiclesInArea : startSearchArea}
+        className='button'
+        style={{ bottom: 40 }} >
         {!searchArea ? 'Start searching an area' : 'Search area'}
       </button>
       {searchArea && <button
         onClick={closeSearchArea}
-        style={{ position: 'absolute', bottom: 0, left: 0, width: '200px', borderRadius: 10, backgroundColor: '#3B5D7F', color: 'white' }} >
+        className='button'
+        style={{ bottom: 0 }} >
         {'Close search area'}
       </button>}
     </div>

@@ -11,11 +11,11 @@ export const getAllVehicles = async () => {
 export const getVehiclesInPolygon = async (polygon: number[][]) => {
     try {
         const response = await fetch('http://localhost:5000/vehicles/selectedArea', {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(polygon) // body data type must match "Content-Type" header
+            body: JSON.stringify(polygon)
         });
         return await response.json()
     } catch (e) {

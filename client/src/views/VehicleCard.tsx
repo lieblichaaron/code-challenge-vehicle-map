@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Vehicle } from "../utils/vehicle";
 import './VehicleCard.css'
 import Geocode from "react-geocode";
+import { ReactComponent as YourSvg } from '../car.svg';
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY ? process.env.REACT_APP_GOOGLE_API_KEY : '')
 const VehicleCard = ({ vehicle }: { vehicle: Vehicle }) => {
     const [location, setLocation] = useState()
@@ -20,11 +21,14 @@ const VehicleCard = ({ vehicle }: { vehicle: Vehicle }) => {
     return (
         <div className='card-container'>
             {location && <div className='card'>
-                <div>Vehicle Id: {vehicle.vehicle_id}</div>
-                <div>State: {vehicle.state}</div>
-                <div>Seats: {vehicle.seats}</div>
-                <div>Class: {vehicle.class_name}</div>
-                <div>Location: {location}</div>
+                <YourSvg width='40%' height='100%' />
+                <div style={{ width: '60%', margin: 'auto 0' }}>
+                    <div className='car-info'>Vehicle Id: {vehicle.vehicle_id}</div>
+                    <div className='car-info'>State: {vehicle.state}</div>
+                    <div className='car-info'>Seats: {vehicle.seats}</div>
+                    <div className='car-info'>Class: {vehicle.class_name}</div>
+                    <div className='car-info'>Location: {location}</div>
+                </div>
             </div>}
         </div>
     )

@@ -7,17 +7,13 @@
 
 .map-container {
   width: 100%;
-  min-height: 500px;
-  height: 500px;
-  background-color: black;
-}
-
-.vehicle-list-container {
+  min-height: 600px;
+  height: 600px;
   display: flex;
   flex-direction: row;
-  min-height: 500px;
-  max-height: 500px;
-  height: 500px;
+}
+
+.vehicle-card {
   width: 100%;
   min-width: 100%;
 }

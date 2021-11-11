@@ -1,0 +1,14 @@
+.container {
+    height: 100%;
+    width: 70%;
+    position: relative;
+}
+
+.button {
+    position: absolute;
+    left: 0;
+    width: 200px;
+    border-radius: 10px;
+    background-color: #3B5D7F;
+    color: white;
+}
