@@ -4,6 +4,7 @@ import { Vehicle } from '../utils/vehicle';
 import CarMarker from '../components/CarMarker'
 import { getVehiclesInPolygon } from '../utils/vehiclesAPI'
 import './Map.css'
+import Loader from "react-loader-spinner";
 
 interface I_MapProps {
   setChosenVehicle: Function;
@@ -17,6 +18,7 @@ const Map = ({ setChosenVehicle, chosenVehicle, setFilters, setAreaList }: I_Map
   const [mapState, setMapState] = useState<any>()
   const [mapsState, setMapsState] = useState<any>()
   const [vehiclesInArea, setVehiclesInArea] = useState<Vehicle[]>()
+  const [isLoading, setIsLoading] = useState(false)
 
   const defaultBounds = [
     { lat: chosenVehicle.lat + .01, lng: chosenVehicle.lng - .01 },
@@ -51,6 +53,7 @@ const Map = ({ setChosenVehicle, chosenVehicle, setFilters, setAreaList }: I_Map
     }
   }
   const getVehiclesInArea = async () => {
+    setIsLoading(true)
     const polygon: number[][] = []
     searchArea.getPath().td.forEach((coords: any, i: number) => {
       const point = []
@@ -59,10 +62,13 @@ const Map = ({ setChosenVehicle, chosenVehicle, setFilters, setAreaList }: I_Map
       polygon[i] = point
     })
     const res = await getVehiclesInPolygon(polygon)
-    setVehiclesInArea(res)
-    setChosenVehicle(res[0])
-    setAreaList(res)
-    setFilters({ text: '', status: 'all', class: 'all' })
+    if (res.length > 0) {
+      setVehiclesInArea(res)
+      setChosenVehicle(res[0])
+      setAreaList(res)
+      setFilters({ text: '', status: 'all', class: 'all' })
+    }
+    setIsLoading(false)
   }
 
   return (
@@ -83,6 +89,14 @@ const Map = ({ setChosenVehicle, chosenVehicle, setFilters, setAreaList }: I_Map
           }
         }
       >
+        {isLoading && <div style={{ zIndex: 999, position: 'absolute', top: -20, left: -20 }}>
+          <Loader
+            type="Puff"
+            color="black"
+            height={50}
+            width={50}
+          />
+        </div>}
         <CarMarker
           lat={chosenVehicle.lat}
           lng={chosenVehicle.lng}
