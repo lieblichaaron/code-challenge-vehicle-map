@@ -8,7 +8,7 @@ import Loader from "react-loader-spinner";
 
 interface I_MapProps {
   setChosenVehicle: Function;
-  chosenVehicle: Vehicle;
+  chosenVehicle?: Vehicle;
   setFilters: Function;
   setAreaList: Function;
   displayList: Vehicle[];
@@ -21,11 +21,13 @@ const Map = ({ setChosenVehicle, chosenVehicle, setFilters, setAreaList, display
   const [vehiclesInArea, setVehiclesInArea] = useState<Vehicle[]>()
   const [isLoading, setIsLoading] = useState(false)
 
+  const defaultLocation = { lat: chosenVehicle ? chosenVehicle.lat : 32.085418, lng: chosenVehicle ? chosenVehicle.lng : 34.789417 }
+
   const defaultBounds = [
-    { lat: chosenVehicle.lat + .01, lng: chosenVehicle.lng - .01 },
-    { lat: chosenVehicle.lat + .01, lng: chosenVehicle.lng + .01 },
-    { lat: chosenVehicle.lat - .01, lng: chosenVehicle.lng + .01 },
-    { lat: chosenVehicle.lat - .01, lng: chosenVehicle.lng - .01 },
+    { lat: defaultLocation.lat + .01, lng: defaultLocation.lng - .01 },
+    { lat: defaultLocation.lat + .01, lng: defaultLocation.lng + .01 },
+    { lat: defaultLocation.lat - .01, lng: defaultLocation.lng + .01 },
+    { lat: defaultLocation.lat - .01, lng: defaultLocation.lng - .01 },
   ]
 
   const closeSearchArea = () => {
@@ -77,8 +79,8 @@ const Map = ({ setChosenVehicle, chosenVehicle, setFilters, setAreaList, display
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY || '' }}
         center={{
-          lat: chosenVehicle.lat,
-          lng: chosenVehicle.lng
+          lat: defaultLocation.lat,
+          lng: defaultLocation.lng
         }}
         defaultZoom={13}
         hoverDistance={25}
@@ -98,14 +100,14 @@ const Map = ({ setChosenVehicle, chosenVehicle, setFilters, setAreaList, display
             width={50}
           />
         </div>}
-        <CarMarker
-          lat={chosenVehicle.lat}
-          lng={chosenVehicle.lng}
+        {chosenVehicle && <CarMarker
+          lat={defaultLocation.lat}
+          lng={defaultLocation.lng}
           onClick={setChosenVehicle}
           vehicle={chosenVehicle}
           chosen={true}
-        />
-        {vehiclesInArea && displayList.map((vehicle: Vehicle) => {
+        />}
+        {vehiclesInArea && chosenVehicle && displayList.map((vehicle: Vehicle) => {
           return (
             <CarMarker
               key={vehicle.vehicle_id}

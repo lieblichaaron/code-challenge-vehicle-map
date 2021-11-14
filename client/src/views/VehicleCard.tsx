@@ -4,23 +4,25 @@ import './VehicleCard.css'
 import Geocode from "react-geocode";
 import { ReactComponent as YourSvg } from '../car.svg';
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY ? process.env.REACT_APP_GOOGLE_API_KEY : '')
-const VehicleCard = ({ vehicle }: { vehicle: Vehicle }) => {
+const VehicleCard = ({ vehicle }: { vehicle?: Vehicle }) => {
     const [location, setLocation] = useState()
 
     useEffect(() => {
-        Geocode.fromLatLng(`${vehicle.lat}`, `${vehicle.lng}`).then(
-            (response) => {
-                setLocation(response.results[0].formatted_address)
-            },
-            (error) => {
-                console.error(error);
-            }
-        );
+        if (vehicle) {
+            Geocode.fromLatLng(`${vehicle.lat}`, `${vehicle.lng}`).then(
+                (response) => {
+                    setLocation(response.results[0].formatted_address)
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+        }
     }, [vehicle])
 
     return (
         <div className='card-container'>
-            {location && <div className='card'>
+            {vehicle && location && <div className='card'>
                 <YourSvg width='40%' height='100%' />
                 <div style={{ width: '60%', margin: 'auto 0' }}>
                     <div className='car-info'>Vehicle Id: {vehicle.vehicle_id}</div>

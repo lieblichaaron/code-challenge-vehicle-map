@@ -26,6 +26,7 @@ function App() {
   }, [])
 
   useEffect(() => {
+    const previouslyChosen = chosenVehicle
     let tempList: Vehicle[];
     if (areaList) {
       tempList = areaList.filter((vehicle: Vehicle) => {
@@ -45,21 +46,21 @@ function App() {
       });
     }
     setDisplayList(tempList)
-    setChosenVehicle(tempList[0])
+    setChosenVehicle(tempList[0] || previouslyChosen)
   }, [filters, vehiclesList, areaList])
 
   return (
     <div className='app-container'>
       <div className='map-container'>
-        {chosenVehicle && <Map displayList={displayList} setAreaList={setAreaList} setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} setFilters={setFilters} />}
+        <Map displayList={displayList} setAreaList={setAreaList} setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} setFilters={setFilters} />
         <div style={{ width: '30%', maxHeight: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
           <ListFilter setFilters={setFilters} filters={filters} />
-          {chosenVehicle && <VehiclesList vehicles={displayList} setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} />
-          }
+          <VehiclesList vehicles={displayList} setChosenVehicle={setChosenVehicle} chosenVehicle={chosenVehicle} />
+
         </div >
       </div>
       <div className='vehicle-card'>
-        {chosenVehicle && <VehicleCard vehicle={chosenVehicle} />}
+        <VehicleCard vehicle={chosenVehicle} />
       </div >
     </div >
   );
